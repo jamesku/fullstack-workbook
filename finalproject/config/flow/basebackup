@@ -25,7 +25,11 @@ module.exports = {
 	target:'node-webkit',
 node: {
    fs: 'empty',
-   },
+   console: 'empty',
+   net: 'empty',
+   tls: 'empty',
+   exports: 'empty'
+  },
   plugins: [
     new webpack.ProvidePlugin({
       'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'  // fetch API
@@ -37,8 +41,8 @@ node: {
       minChunks: Infinity
     }),
 	new webpack.DefinePlugin({
-	  'global': {}
-   })
+	   'global': {}
+	  })
   ],
   module: {
     loaders: [
@@ -69,8 +73,8 @@ node: {
       },
 	     {
 	        test: /\.json?$/,
-	         loader: 'json-loader'
-	        }
+	         loader: 'json'
+	}
     ]
   },
   postcss: function () {

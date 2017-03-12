@@ -20,6 +20,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onClick: () => {
       dispatch(uploadMedia());
+    },
+    handleMediaSubmit: (acceptedFiles, value) => {
+      dispatch(uploadMedia(acceptedFiles, value));
     }
   };
 };

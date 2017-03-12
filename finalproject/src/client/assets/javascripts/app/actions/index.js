@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const ADD_MOVIE = 'ADD_MOVIE';
+export const ADD_NEW_POST = 'ADD_NEW_POST';
 export const DELETE_MOVIE = 'DELETE_MOVIE';
 export const REQUEST_HT = 'REQUEST_HT';
 export const RECEIVE_MOVIE_META = 'RECEIVE_MOVIE_META';
@@ -23,10 +23,11 @@ export function requestHT(hashtag) {
   };
 }
 
-function addUserMovie(movie) {
+function addNewPost(fileURL,hashtag) {
   return {
-    type: ADD_MOVIE,
-    movie
+    type: ADD_NEW_POST,
+    fileURL,
+    hashtag
   };
 }
 //
@@ -65,7 +66,6 @@ export function deleteMovieFromState(movieId) {
   };
 }
 
-
 export function saveMovie(movieTitle, moviePosterPath, _id) {
   return function (dispatch) {
 
@@ -76,7 +76,6 @@ export function saveMovie(movieTitle, moviePosterPath, _id) {
     };
 
       // Initial dispatch to add the movie to the local store
-    dispatch(addUserMovie(movie));
 
       // Return a Promise via Axios to wait for
     return axios.post('http://localhost:4000/movies' , movie);
@@ -84,7 +83,6 @@ export function saveMovie(movieTitle, moviePosterPath, _id) {
   };
 
 }
-
 
 // THUNK Action Creator
 export function getUserMovies() {
@@ -147,15 +145,18 @@ export function searchForHT(searchValue) {
   };
 }
 
-export function uploadMedia() {
+//const fs = require('fs');
+//const rp = require('request-promise-native');
+
+export function uploadMedia(receivedFile, hashtag) {
   return function (dispatch) {
-      // Dispatch the request for the Movie Meta Data
-  //  dispatch(requestHT(searchValue));
 
-    dispatch(addHT());
-    //
-
-  };
+ receivedFile.forEach((file) => {
+   let data = new FormData();
+   data.append('file', file);
+   axios.post('http://localhost:8080/newpost', data);
+  });
+};
 }
 
 export function updateHT(value) {
