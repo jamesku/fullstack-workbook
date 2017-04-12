@@ -8,6 +8,14 @@ export const REQUEST_USER_MOVIES = 'REQUEST_USER_MOVIES';
 export const RECEIVE_USER_MOVIES = 'RECEIVE_USER_MOVIES';
 export const CLEAR_MOVIE_SEARCH = 'CLEAR_MOVIE_SEARCH';
 export const UPDATE_HT_VALUE = 'UPDATE_HT_VALUE';
+export const SET_USER_ID = 'SET_USER_ID';
+
+export function setUserID(userId){
+  return {
+    type: SET_USER_ID,
+    userId
+  };
+}
 
 export function updateHTValue(value) {
   return {
@@ -30,6 +38,29 @@ function addNewPost(fileURL,hashtag) {
     hashtag
   };
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //
 // function receiveMovieMeta(json) {
 //   return {
@@ -154,9 +185,15 @@ export function uploadMedia(receivedFile, hashtag) {
  receivedFile.forEach((file) => {
    let data = new FormData();
    data.append('file', file);
+   data.append('hashtag', hashtag);
+   console.log(data);
+
+   //put the data in the store
+
+   // put the data in the db
    axios.post('http://localhost:8080/newpost', data);
   });
-};
+} ;
 }
 
 export function updateHT(value) {

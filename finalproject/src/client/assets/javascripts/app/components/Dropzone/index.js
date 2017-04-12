@@ -10,10 +10,12 @@ export default class DropzoneComponent extends React.Component {
   onDrop(acceptedFiles, rejectedFiles){
     console.log('Accepted files: ', acceptedFiles);
     console.log('Rejected files: ', rejectedFiles);
+    console.log(this.props.searchValue);
     this.props.handleMediaSubmit(acceptedFiles,this.props.searchValue);
     }
 
 render (){
+
       return (
           <div>
             <Dropzone onDrop={this.onDrop.bind(this)}>
