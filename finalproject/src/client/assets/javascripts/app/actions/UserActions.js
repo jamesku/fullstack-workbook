@@ -6,6 +6,7 @@ export const SET_USER_FIRST_NAME = 'SET_USER_FIRST_NAME';
 export const SET_USER_LAST_NAME = 'SET_USER_LAST_NAME';
 export const SET_USER_ID = 'SET_USER_ID';
 export const SUBMIT_NEW_USER = 'SUBMIT_NEW_USER';
+export const DISPLAY_ERROR = 'DISPLAY_ERROR';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -24,6 +25,14 @@ function requestNewUser(creds) {
     creds
   };
 }
+
+function submitNewUserFailure(error) {
+  return {
+    type: DISPLAY_ERROR,
+    error
+  };
+}
+
 
 function recieveNewUser(user) {
   return {
@@ -51,22 +60,16 @@ export function submitNewUser(userObj){
   //   body: `firstname=${value.FirstName}&password=${value.Password}&lastname=${value.LastName}&email=${value.Email}`
   // }
 
-console.log("userObk");
-console.log(userObj);
+;
+
   return function (dispatch) {
     dispatch(requestNewUser(userObj));
-
+    console.log(userObj);
     axios.post('http://localhost:8080/signup' , userObj).
-    then( (response) => {
-      if (response.ok == false){
-          dispatch(newUserError(response.message));
-      } else {
-        userObj.idToken = response.idToken;
-        localStorage.setItem('id_token', response.id_token);
+    then( function (response) {
 
-        // Dispatch the success action
-        dispatch(receiveLogin(userObj));
-      }
+      console.log(response);
+
     }).catch( (err) => console.log("Error: ", err));
 
   };

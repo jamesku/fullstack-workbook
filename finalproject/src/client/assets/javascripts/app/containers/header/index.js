@@ -4,7 +4,7 @@ import {searchForHT, updateHT, uploadMedia} from '../../actions';
 
 const mapStateToProps = (state) => {
   return {
-    searchValue: state.reducers.searchMovie.searchValue
+    searchValue: state.reducers.HTOperations.searchMovie.searchValue
   };
 };
 
