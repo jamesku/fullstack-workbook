@@ -1,27 +1,33 @@
 import { connect } from 'react-redux';
-import UserMovies from '../../components/UserMovies';
-import {deleteMovie} from '../../actions';
-
-
+import wall from '../../components/wall';
+import {deletePost} from '../../actions';
 
 const mapStateToProps = (state) => {
-  let movieArray = [];
-  movieArray = state.addUserMovies;
+
+  let hashtag = window.location.href.substr(22);
+  // console.log(hashtag);
+  // console.log("container");
+  console.log(state.reducers.HTOperations);
+  const indexArray = state.reducers.HTOperations.HTWall.indexArray;
+console.log(indexArray);
+  //const index = indexArray.indexOf(hashtag);
+  let postArray = [];
+  //postArray = state.reducers.HTOperations.HTWall[index];
+console.log(postArray);
   return {
-    allMovies: movieArray
+    postArray
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteMovie: (movieId) => dispatch(deleteMovie(movieId))
+    deletePost: (movieId) => dispatch(deletePost(movieId))
   };
 };
-
 
 const Wall = connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserMovies);
+)(wall);
 
 export default Wall;

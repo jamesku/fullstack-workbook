@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {SET_USER_EMAIL, SET_USER_HTACCESS, SET_USER_ID,
   SET_USER_PASSWORD, SET_USER_FIRST_NAME, SET_USER_LAST_NAME, SET_USER_JWT,
-  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS } from '../actions/UserActions';
+  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS, NEW_USER_SUCCESS } from '../actions/UserActions';
 
 function userInfo(state = {
   user: {
@@ -71,6 +71,15 @@ function userInfo(state = {
         Password: action.value
         }
       };
+      case NEW_USER_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          Id: action.Id,
+          JWT: action.JWT
+          }
+        };
     default:
       return state;
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, Route, IndexRoute, Redirect, browserHistory } from 'react-router';
+import PrivateRoute from './privateRoutes.js';
 
 import App from './App';
 import FriendsView from '../features/friends/components/FriendsView';
@@ -10,17 +11,18 @@ import Wall from './containers/wall';
 import TopBar from './containers/header';
 import SignUpForm from './containers/signupform';
 
+
 export default (
   <div>
-
-    <Router history={browserHistory} >
-      <Route path="/" component={App} >
-        <IndexRoute component={Wall} />
-        <Route path="users" component={Navbar}/>
-        <Route path="user/:userId" component={Wall} />
+    <Route path="/" component={Wall}>
+      <IndexRoute component={Wall} />
       </Route>
+      <PrivateRoute path="/p/" component={App} >
+        <IndexRoute component={Wall} />
+        <PrivateRoute path="users" component={Navbar}/>
+        <PrivateRoute path="user/:userId" component={Wall} />
+      </PrivateRoute>
       <Route path="/signup" component={SignUpForm}/>
-    </Router>
   </div>
 
   );

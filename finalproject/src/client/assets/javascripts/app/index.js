@@ -7,12 +7,20 @@ import Redbox from 'redbox-react';
 
 import Root from './Root';
 import configureStore from './store/configureStore';
+import { loadState, saveState } from './localStorage.js';
 
 import 'styles/bootstrap.min.css';
 import 'styles/styles.scss';
 
-const store = configureStore();
+const persistedState = loadState();
+
+// const store = configureStore();
+const store = configureStore(persistedState);
 const history = syncHistoryWithStore(browserHistory, store);
+
+store.subscribe(() => {
+  saveState(store.getState());
+});
 
 // Get the DOM Element that will host our React application
 const rootEl = document.getElementById('app');

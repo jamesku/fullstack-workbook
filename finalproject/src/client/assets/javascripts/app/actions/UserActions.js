@@ -1,4 +1,5 @@
 import axios from 'axios';
+import showErrorBox from './various.js';
 
 export const SET_USER_EMAIL = 'SET_USER_EMAIL';
 export const SET_USER_PASSWORD = 'SET_USER_PASSWORD';
@@ -6,7 +7,6 @@ export const SET_USER_FIRST_NAME = 'SET_USER_FIRST_NAME';
 export const SET_USER_LAST_NAME = 'SET_USER_LAST_NAME';
 export const SET_USER_ID = 'SET_USER_ID';
 export const SUBMIT_NEW_USER = 'SUBMIT_NEW_USER';
-export const DISPLAY_ERROR = 'DISPLAY_ERROR';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -26,29 +26,21 @@ function requestNewUser(creds) {
   };
 }
 
-function submitNewUserFailure(error) {
+function submitNewUserFailure(message) {
   return {
     type: DISPLAY_ERROR,
-    error
+    message
   };
 }
 
 
-function recieveNewUser(user) {
+function receiveNewUser(user) {
   return {
     type: NEW_USER_SUCCESS,
     isFetching: false,
     isAuthenticated: true,
-    idToken: user.idToken
-  };
-}
-
-function newUserError(message) {
-  return {
-    type: NEW_USER_FAILURE,
-    isFetching: false,
-    isAuthenticated: false,
-    message
+    JWT: user.token,
+    Id: user.userId
   };
 }
 
@@ -60,18 +52,27 @@ export function submitNewUser(userObj){
   //   body: `firstname=${value.FirstName}&password=${value.Password}&lastname=${value.LastName}&email=${value.Email}`
   // }
 
-;
+
 
   return function (dispatch) {
     dispatch(requestNewUser(userObj));
     console.log(userObj);
     axios.post('http://localhost:8080/signup' , userObj).
     then( function (response) {
-
       console.log(response);
 
-    }).catch( (err) => console.log("Error: ", err));
-
+      if(response.data.error){
+console.log(response.data.error);
+        dispatch(showErrorBox(response.data.error));
+      }
+      else {
+        // Window.localstorage.setItem('mwtok':response.data.token);
+        dispatch(receiveNewUser(response.data));}
+        if (response.data.token){
+          axios.defaults.headers.common['jwtoken'] = response.data.token;
+          window.location.href = "/";
+        }
+    }).catch( (err) => console.log((err)));
   };
 }
 

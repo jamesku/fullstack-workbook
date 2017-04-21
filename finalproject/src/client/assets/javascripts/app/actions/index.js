@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-export const ADD_NEW_POST = 'ADD_NEW_POST';
-export const DELETE_MOVIE = 'DELETE_MOVIE';
+export const showErrorBox = 'ADD_NEW_POST';
 export const REQUEST_HT = 'REQUEST_HT';
 export const RECEIVE_MOVIE_META = 'RECEIVE_MOVIE_META';
 export const REQUEST_USER_MOVIES = 'REQUEST_USER_MOVIES';
@@ -9,6 +8,7 @@ export const RECEIVE_USER_MOVIES = 'RECEIVE_USER_MOVIES';
 export const CLEAR_MOVIE_SEARCH = 'CLEAR_MOVIE_SEARCH';
 export const UPDATE_HT_VALUE = 'UPDATE_HT_VALUE';
 export const SET_USER_ID = 'SET_USER_ID';
+export const LOAD_POSTS = 'LOAD_POSTS';
 
 export function setUserID(userId){
   return {
@@ -39,9 +39,43 @@ function addNewPost(fileURL,hashtag) {
   };
 }
 
+//###############################################################
+//#Hashtag actions
+//#
 
+export function searchForHT(hashtag) {
 
+  return (dispatch) => {
+    // const { JWT } = getState().reducers.userReducers.userInfo.user;
+    //
+    // axios.defaults.headers.common['JWToken'] = JWT;
 
+  window.location.href = "/"+ hashtag;
+
+    axios({
+      url: 'http://localhost:8080/hashtags',
+      timeout: 20000,
+      method: 'post',
+      data: {hashtag}
+    })
+      // When the response is received, dispatch the data (via action creator)
+
+      .then( (resp) => {
+        if(resp.data.newhashtag){
+          console.log(resp);
+        }
+
+        //  dispatch(resp.dataddUserMovie(movie));
+        });
+  };
+}
+
+function loadPosts(hashtag){
+  return {
+    type: LOAD_POSTS,
+    hashtag,
+  };
+}
 
 
 
@@ -165,16 +199,6 @@ function addHT(searchValue) {
   };
 }
 
-export function searchForHT(searchValue) {
-  return function (dispatch) {
-      // Dispatch the request for the Movie Meta Data
-  //  dispatch(requestHT(searchValue));
-
-    dispatch(addHT(searchValue));
-    //
-
-  };
-}
 
 //const fs = require('fs');
 //const rp = require('request-promise-native');

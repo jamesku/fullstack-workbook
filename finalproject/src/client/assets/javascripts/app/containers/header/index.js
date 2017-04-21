@@ -4,16 +4,14 @@ import {searchForHT, updateHT, uploadMedia} from '../../actions';
 
 const mapStateToProps = (state) => {
   return {
-    searchValue: state.reducers.HTOperations.searchMovie.searchValue
+    searchValue: state.reducers.HTOperations.searchHT.searchValue
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onChange: (value) => {
-      if (value) {
         dispatch(updateHT(value));
-      }
     },
     handleSubmit: (value) => {
       dispatch(searchForHT(value));

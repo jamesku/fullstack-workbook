@@ -49,7 +49,7 @@ class SignUpForm extends Component {
       this.handleMyFormSubmit = this.handleMyFormSubmit.bind(this);
 
     }
-    
+
     handleMyFormSubmit() {
       const userObj = { FirstName:this.props.FirstName, LastName:this.props.LastName, Password:this.props.Password, Email:this.props.Email};
       this.props.onSubmit(userObj);

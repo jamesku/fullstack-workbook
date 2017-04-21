@@ -2,17 +2,15 @@ import {combineReducers} from 'redux';
 import update from 'react-addons-update';
 import {DELETE_MOVIE, ADD_MOVIE, REQUEST_HT,
    CLEAR_MOVIE_SEARCH, RECEIVE_MOVIE_META,
-    RECEIVE_USER_MOVIES, UPDATE_HT_VALUE, SET_USER_ID } from '../actions';
+    RECEIVE_USER_MOVIES, UPDATE_HT_VALUE, SET_USER_ID, LOAD_POSTS, ADD_ARRAY_TO_INDEX } from '../actions';
 
 // Change the state tree (movieSearch) based on the value input searching for the movie
 
 import userInfo from './userInfo.js';
 
-function searchMovie(state = {
+function searchHT(state = {
   isFetching: false,
-  movieTitle: '',
-  movieOverview: '',
-  moviePosterPath: '',
+  HT: '',
   searchValue: ''
 }, action) {
   switch (action.type) {
@@ -50,28 +48,19 @@ function searchMovie(state = {
   }
 }
 
-function addUserMovies(state = { UserMovies: []
+function HTWall(state = {
+  Posts: [],
+  indexArray: [],
 }, action) {
   switch (action.type) {
-    case ADD_MOVIE: {
-      return ([...state, action.movie]);
-    }
-    case RECEIVE_USER_MOVIES: {
-      if (state.UserMovies) {
-        return (state.UserMovies.concat(action.movieArray));
-      }
-      return state;
-    }
-    case DELETE_MOVIE: {
-      let index;
-      state.map((obj,i) => {
-        if (obj._id === action.movieId) {
-          index = i;
-        }
+    case LOAD_POSTS:
+      return Object.assign({}, state, {
+        Posts: state.Posts.concat(action.post)
       });
-      const newState = update(state, {$splice: [[index, 1]]});
-      return newState;
-    }
+    case ADD_ARRAY_TO_INDEX:
+        return Object.assign({}, state, {
+            indexArray: state.indexArray.concat(action.hashtag)
+      });
     default:
       return state;
   }
@@ -79,8 +68,8 @@ function addUserMovies(state = { UserMovies: []
 
 // Combine reducers
 const HTOperations = combineReducers({
-  searchMovie,
-  addUserMovies,
+  searchHT,
+  HTWall,
   userInfo
 });
 

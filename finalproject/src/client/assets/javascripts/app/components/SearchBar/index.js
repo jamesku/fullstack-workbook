@@ -3,7 +3,6 @@ import React from 'react';
 const SearchBar = ({searchValue, onChange, handleSubmit}) => {
 
   return (
-    <div>
       <form onSubmit={(e) => {
         e.preventDefault();
         handleSubmit(searchValue);
@@ -16,7 +15,6 @@ const SearchBar = ({searchValue, onChange, handleSubmit}) => {
         />
 
       </form>
-    </div>
   );
 };
 
