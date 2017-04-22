@@ -14,12 +14,12 @@ const divStyle = {
 
       };
 
-const Header = ({searchValue, onChange, handleSubmit, handleMediaSubmit}) => {
+const Header = ({searchValue, onChange, handleSubmit, handleError, isAuthenticated, handleMediaSubmit}) => {
   return (
     <div style={divStyle}>
       <SearchBar onChange={onChange} searchValue={searchValue} handleSubmit={handleSubmit} />
 
-      <DropzoneComponent searchValue={searchValue} handleMediaSubmit={handleMediaSubmit}/>
+      <DropzoneComponent searchValue={searchValue} isAuthenticated={isAuthenticated} handleError={handleError} handleMediaSubmit={handleMediaSubmit}/>
 
     </div>
   );

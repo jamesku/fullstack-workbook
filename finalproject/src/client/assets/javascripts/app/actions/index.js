@@ -215,7 +215,10 @@ export function uploadMedia(receivedFile, hashtag) {
    //put the data in the store
 
    // put the data in the db
-   axios.post('http://localhost:8080/newpost', data);
+   axios.post('http://localhost:8080/newpost', data)
+  .then( (resp) => {
+    console.log(resp);
+  });
   });
 } ;
 }

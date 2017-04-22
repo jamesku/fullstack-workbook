@@ -5,15 +5,17 @@ import {deletePost} from '../../actions';
 const mapStateToProps = (state) => {
 
   let hashtag = window.location.href.substr(22);
-  // console.log(hashtag);
-  // console.log("container");
-  console.log(state.reducers.HTOperations);
+
   const indexArray = state.reducers.HTOperations.HTWall.indexArray;
-console.log(indexArray);
-  //const index = indexArray.indexOf(hashtag);
+
+  const index = indexArray.indexOf(hashtag);
   let postArray = [];
-  //postArray = state.reducers.HTOperations.HTWall[index];
-console.log(postArray);
+  postArray = state.reducers.HTOperations.HTWall[index];
+
+  if(!postArray){
+    postArray = false;
+  }
+  
   return {
     postArray
   };

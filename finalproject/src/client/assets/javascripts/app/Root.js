@@ -10,7 +10,6 @@ import {
 } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 
-
 import App from './App';
 import FriendsView from '../features/friends/components/FriendsView';
 import NotFoundView from './components/NotFound';
@@ -19,6 +18,7 @@ import Navbar from './containers/Navbar';
 import Wall from './containers/wall';
 import TopBar from './containers/header';
 import SignUpForm from './containers/signupform';
+import ErrorBox from './containers/errorBox'
 
 ////////////////////////////////////////////////////////////
 // 1. Click the public page
@@ -31,10 +31,12 @@ const Root = ({store, history}) => {
     <Provider store={store}>
     <div style={divStyle}>
     <TopBar />
+    <ErrorBox />
       <Router history={history}>
           <div>
+          <Route exact path="/" component={Wall}/>
           <Switch>
-              <PrivateRoute exact path="/" component={Wall}/>
+              <PrivateRoute exact path="/p/" component={Wall}/>
               <PrivateRoute path="/users" component={Wall}/>
               <PrivateRoute path="/user/:userId" component={Wall} />
               <Route path="/signup" component={SignUpForm}/>

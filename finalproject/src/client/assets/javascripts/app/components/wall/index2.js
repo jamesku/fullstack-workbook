@@ -46,20 +46,24 @@ const itemsArray = [
   }
 ];
 
-export default class Wall extends React.PureComponent{
+const AddRemoveLayout = React.createClass({
+  mixins: [PureRenderMixin],
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: this.props.postArray,
+  getDefaultProps() {
+    return {
+      className: 'layout',
+      cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
+      rowHeight: 100,
+      onLayoutChange: () => {}
+    };
+  },
+
+  getInitialState() {
+    return {
+      items: itemsArray,
       newCounter: 0
     };
-  }
-
-  onRemoveItem(i) {
-    console.log('removing', i);
-    this.setState({items: _.reject(this.state.items, {i: i})});
-  }
+  },
 
   createElement(el) {
     const removeStyle = {
@@ -69,18 +73,16 @@ export default class Wall extends React.PureComponent{
       cursor: 'pointer',
       zIndex: 20
     };
-
     const i = el.add ? '+' : el.i;
     return (
       <div key={i} data-grid={el}>
       <span className="remove" style={removeStyle} onClick={this.onRemoveItem.bind(this, i)}>x</span>
         {el.add ?
-          <span className="add text" onClick={this.onAddItem.bind(this)} title="You can add an item by clicking here, too.">Add +</span>
+          <span className="add text" onClick={this.onAddItem} title="You can add an item by clicking here, too.">Add +</span>
         : <span className="text">{i}</span>}
         </div>
     );
-  }
-//
+  },
 
   onAddItem() {
     /* eslint no-console: 0*/
@@ -97,7 +99,7 @@ export default class Wall extends React.PureComponent{
       // Increment the counter to ensure key is always unique.
       newCounter: this.state.newCounter + 1
     });
-  }
+  },
 
   // We're using the cols coming back from this to calculate where to add new items.
   onBreakpointChange(breakpoint, cols) {
@@ -105,31 +107,29 @@ export default class Wall extends React.PureComponent{
       breakpoint: breakpoint,
       cols: cols
     });
-  }
+  },
 
   onLayoutChange(layout) {
     this.props.onLayoutChange(layout);
     this.setState({layout: layout});
-  }
+  },
 
-
+  onRemoveItem(i) {
+    console.log('removing', i);
+    this.setState({items: _.reject(this.state.items, {i: i})});
+  },
 
   render() {
     return (
       <div>
-        <button onClick={this.onAddItem.bind(this)}>Add Item</button>
-        <ResponsiveReactGridLayout onLayoutChange={this.onLayoutChange.bind(this)} onBreakpointChange={this.onBreakpointChange.bind(this)}
+        <button onClick={this.onAddItem}>Add Item</button>
+        <ResponsiveReactGridLayout onLayoutChange={this.onLayoutChange} onBreakpointChange={this.onBreakpointChange}
             {...this.props}>
-          {_.map(this.state.items, this.createElement.bind(this))}
+          {_.map(this.state.items, this.createElement)}
         </ResponsiveReactGridLayout>
       </div>
     );
   }
-}
+});
 
-Wall.defaultProps = {
-  className: 'layout',
-  cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
-  rowHeight: 100,
-  onLayoutChange: () => {}
-};
+module.exports = AddRemoveLayout;

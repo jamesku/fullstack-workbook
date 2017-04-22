@@ -9,12 +9,11 @@ var divStyle = {
   zindex:1000
 };
 
-const errorBox = ({errorText, onClick, show}) => {
+const errorBox = ({message, onClick, show}) => {
   return (
-
 <ToggleDisplay show={show}>
     <div className="errorbox" style={divStyle} >
-      {errorText}
+      {message}
     <Button onClick={onClick} buttonText="cool"/>
     </div>
 </ToggleDisplay>
@@ -26,5 +25,5 @@ export default errorBox;
 errorBox.propTypes = {
   errorText: React.PropTypes.string,
   onClick: React.PropTypes.func,
-  show: React.PropTypes.string
+  show: React.PropTypes.boolean
 };

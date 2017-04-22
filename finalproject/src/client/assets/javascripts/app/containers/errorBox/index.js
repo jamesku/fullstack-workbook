@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import errorBox from '../../components/errorbox';
-import {showErrorBox} from '../../actions/UserActions';
+import {showErrorBox, hideErrorBox} from '../../actions/various.js';
 
 const mapStateToProps = (state) => {
   return {
-    errorText: state.reducers.errors.showError.shown,
-    show: state.reducers.errors.show,
+    message: state.reducers.showError.message,
+    show: state.reducers.showError.show,
   };
 };
 
@@ -14,8 +14,11 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onClick: (value) => {
       if (value) {
-        dispatch( showErrorBox("false"));
+        dispatch( hideErrorBox());
       }
+    },
+      showErrorBoxProp: (message) => {
+          dispatch( showErrorBox(message));
     }
   };
 };

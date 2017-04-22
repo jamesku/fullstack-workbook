@@ -1,5 +1,6 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
+import showErrorBox from '../../actions/various.js';
 
 export default class DropzoneComponent extends React.Component {
 
@@ -8,11 +9,19 @@ export default class DropzoneComponent extends React.Component {
   }
 
   onDrop(acceptedFiles, rejectedFiles){
+    console.log(this.props.isAuthenticated);
+    if (this.props.isAuthenticated){
     console.log('Accepted files: ', acceptedFiles);
     console.log('Rejected files: ', rejectedFiles);
     console.log(this.props.searchValue);
     this.props.handleMediaSubmit(acceptedFiles,this.props.searchValue);
-    }
+  } else {
+
+    this.props.handleError("Log in to contribute please!");
+  }
+
+}
+
 
 render (){
 
