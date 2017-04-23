@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {SET_USER_EMAIL, SET_USER_HTACCESS, SET_USER_ID,
   SET_USER_PASSWORD, SET_USER_FIRST_NAME, SET_USER_LAST_NAME, SET_USER_JWT,
-  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS, NEW_USER_SUCCESS } from '../actions/UserActions';
+  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST, NEW_USER_SUCCESS } from '../actions/UserActions';
 
 function userInfo(state = {
   user: {
@@ -9,7 +9,7 @@ function userInfo(state = {
     FirstName: '',
     LastName: '',
     Password: '',
-    JWT: '',
+    JWT: false,
     Email: '',
     HTAccess: []
     }
@@ -80,46 +80,53 @@ function userInfo(state = {
           JWT: action.JWT
           }
         };
+      case LOGOUT_REQUEST:
+        return{
+          ...state,
+          user: {
+            ...state.user,
+            JWT: false
+          }
+        };
     default:
       return state;
   }
 }
 
-function auth(state = {
-    isFetching: false,
-    isAuthenticated: localStorage.getItem('id_token') ? true : false
-  }, action) {
-  switch (action.type) {
-    case LOGIN_REQUEST:
-      return Object.assign({}, state, {
-        isFetching: true,
-        isAuthenticated: false,
-        user: action.creds
-      });
-    case LOGIN_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        isAuthenticated: true,
-        errorMessage: ''
-      });
-    case LOGIN_FAILURE:
-      return Object.assign({}, state, {
-        isFetching: false,
-        isAuthenticated: false,
-        errorMessage: action.message
-      });
-    case LOGOUT_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: true,
-        isAuthenticated: false
-      });
-    default:
-      return state;
-  }
-}
+// function auth(state = {
+//     isFetching: false,
+//     isAuthenticated: localStorage.getItem('id_token') ? true : false
+//   }, action) {
+//   switch (action.type) {
+//     case LOGIN_REQUEST:
+//       return Object.assign({}, state, {
+//         isFetching: true,
+//         isAuthenticated: false,
+//         user: action.creds
+//       });
+//     case LOGIN_SUCCESS:
+//       return Object.assign({}, state, {
+//         isFetching: false,
+//         isAuthenticated: true,
+//         errorMessage: ''
+//       });
+//     case LOGIN_FAILURE:
+//       return Object.assign({}, state, {
+//         isFetching: false,
+//         isAuthenticated: false,
+//         errorMessage: action.message
+//       });
+//     case LOGOUT_SUCCESS:
+//       return Object.assign({}, state, {
+//         isFetching: true,
+//         isAuthenticated: false
+//       });
+//     default:
+//       return state;
+//   }
+// }
 
 const userReducers = combineReducers({
-  auth,
   userInfo
 });
 

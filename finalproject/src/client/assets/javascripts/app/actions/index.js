@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const showErrorBox = 'ADD_NEW_POST';
+export const ADD_NEW_POST = 'ADD_NEW_POST';
 export const REQUEST_HT = 'REQUEST_HT';
 export const RECEIVE_MOVIE_META = 'RECEIVE_MOVIE_META';
 export const REQUEST_USER_MOVIES = 'REQUEST_USER_MOVIES';

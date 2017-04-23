@@ -51,7 +51,7 @@ export default class Wall extends React.PureComponent{
   constructor(props) {
     super(props);
     this.state = {
-      items: this.props.postArray,
+      items: itemsArray,
       newCounter: 0
     };
   }

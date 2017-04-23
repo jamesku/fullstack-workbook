@@ -26,13 +26,12 @@ function requestNewUser(creds) {
   };
 }
 
-function submitNewUserFailure(message) {
-  return {
-    type: DISPLAY_ERROR,
-    message
-  };
-}
-
+// function submitNewUserFailure(message) {
+//   return {
+//     type: DISPLAY_ERROR,
+//     message
+//   };
+// }
 
 function receiveNewUser(user) {
   return {
@@ -45,14 +44,6 @@ function receiveNewUser(user) {
 }
 
 export function submitNewUser(userObj){
-
-  // let config = {
-  //   method: 'POST',
-  //   headers: { 'Content-Type':'application/x-www-form-urlencoded' },
-  //   body: `firstname=${value.FirstName}&password=${value.Password}&lastname=${value.LastName}&email=${value.Email}`
-  // }
-
-
 
   return function (dispatch) {
     dispatch(requestNewUser(userObj));
@@ -76,57 +67,83 @@ console.log(response.data.error);
   };
 }
 
+//#############################################
+// Login/Logout functionality
+
+
 function requestLogin(creds) {
   return {
     type: LOGIN_REQUEST,
-    isFetching: true,
-    isAuthenticated: false,
     creds
   };
 }
-
-function receiveLogin(user) {
-  return {
-    type: LOGIN_SUCCESS,
-    isFetching: false,
-    isAuthenticated: true,
-    idToken: user.idToken
-  };
-}
-
-function loginError(message) {
-  return {
-    type: LOGIN_FAILURE,
-    isFetching: false,
-    isAuthenticated: false,
-    message
-  };
-}
-
+//
+// function receiveLogin(user) {
+//   return {
+//     type: LOGIN_SUCCESS,
+//     isFetching: false,
+//     isAuthenticated: true,
+//     idToken: user.idToken
+//   };
+// }
+//
+// function loginError(message) {
+//   return {
+//     type: LOGIN_FAILURE,
+//     isFetching: false,
+//     isAuthenticated: false,
+//     message
+//   };
+// }
+//
 function requestLogout() {
   return {
     type: LOGOUT_REQUEST,
-    isFetching: true,
-    isAuthenticated: true
   };
 }
-
-function receiveLogout() {
-  return {
-    type: LOGOUT_SUCCESS,
-    isFetching: false,
-    isAuthenticated: false
-  };
-}
-
+//
+// function receiveLogout() {
+//   return {
+//     type: LOGOUT_SUCCESS,
+//     isFetching: false,
+//     isAuthenticated: false
+//   };
+// }
+//
 // Logs the user out
 export function logoutUser() {
   return (dispatch) => {
     dispatch(requestLogout());
-    localStorage.removeItem('idToken');
-    dispatch(receiveLogout());
+    axios.defaults.headers.common['jwtoken'] = "";
+
+//    localStorage.removeItem('idToken');
+//    dispatch(receiveLogout());
   };
 }
+
+export function loginUser(creds) {
+  return (dispatch) => {
+console.log(creds);
+    axios({
+      url: 'http://localhost:8080/login',
+      timeout: 20000,
+      method: 'post',
+      data: {creds}
+    })
+      // When the response is received, dispatch the data (via action creator)
+
+      .then( (resp) => {
+          console.log(resp);
+        
+
+        //  dispatch(resp.dataddUserMovie(movie));
+        });
+
+  };
+}
+
+//###########################
+// Functions to set various values in state pertaining to the user
 
 export function setUserID(value){
   return {
